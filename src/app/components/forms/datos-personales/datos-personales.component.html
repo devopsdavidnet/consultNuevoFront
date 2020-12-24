@@ -1,0 +1,113 @@
+<!--
+*----------------------------------------------------------------------------------
+*-- Creado: AINIGUEZ                               Fecha: 03/08/2020            --
+*-- Módulo: Consulta de Bienes                                                   --
+*-- Plantilla HTML modificaciones cambio de password del usuario logueado        -- 
+*----------------------------------------------------------------------------------
+-->
+
+<mat-toolbar >
+    <span class="example-toolbar">Datos Personales
+    </span>    
+</mat-toolbar>
+<form [formGroup]="myForm">
+    <table>
+      <tr>
+        <td>
+            <mat-form-field >
+                <mat-label>Tipo de Documento</mat-label>
+                    <mat-select formControlName="tipodoc" name ="tipodoc">
+                        <mat-option *ngFor="let doc of tipodoc" [value]="doc.value" >
+                        {{doc.viewValue}}               
+                        </mat-option>
+                </mat-select>
+            </mat-form-field>  
+        </td>
+        <td>
+            <mat-form-field>
+            <input matInput type="text" name="ci" id="ci" placeholder="Numero de Identificación"
+            formControlName="ci" [readonly]='true'>
+            </mat-form-field>
+        </td>
+     </tr>    
+     <tr>
+        <td>
+            <mat-form-field >
+            <input matInput name="ApPaterno" id="appaterno" [readonly]='true'
+                placeholder="Apellido Paterno" formControlName="appaterno" >
+                <mat-error *ngIf="myForm.hasError('required', 'password')">
+                        Debe introducir un valor
+                    </mat-error>
+            </mat-form-field>
+        </td>
+        <td>
+            <mat-form-field >
+                <input matInput  type="text" name="ApMaterno" id="apmaterno" [readonly]='true'
+                    placeholder="Apellido Materno" formControlName="apmaterno" >
+                    <mat-error *ngIf="myForm.hasError('required', 'password')">
+                            Debe introducir un valor
+                        </mat-error>
+            </mat-form-field>
+        </td>
+      </tr>
+      <tr>
+        <td>
+            <mat-form-field >
+            <input matInput type="text" name="Nombre" id="nombre" [readonly]='true'
+                placeholder="Nombres" formControlName="nombre" >
+                <mat-error *ngIf="myForm.hasError('required', 'password')">
+                        Debe introducir un valor
+                    </mat-error>
+            </mat-form-field>
+        </td>
+      </tr>
+      <div class="example-button-row">
+           <button mat-icon-button matTooltip="Cambio de Contraseña" color="primary" (click)="flag(islogged ? false : true)">              
+             <mat-icon svgIcon="buscar"></mat-icon> Cambio de Contraseña
+           </button>           
+      </div>
+     <ng-container *ngIf="islogged">
+      <tr>
+           <td>
+                <mat-form-field>
+                <input matInput name="usuario" id="usuario" placeholder="Repita la contraseña actual"
+                [type]="hide ? 'password' : 'text'" formControlName="clave_actual" >
+                </mat-form-field>
+           </td>
+      </tr>   
+      <tr>
+           <td>
+                <mat-form-field>
+                    <input matInput placeholder="Nuevo password" formControlName="password" required
+                        type="password">
+                        <mat-error *ngIf="myForm.hasError('required', 'password')">
+                            Nuevo password Por Favor
+                        </mat-error>
+                    </mat-form-field>   
+           </td>
+      </tr>     
+      <tr>                
+           <td>
+                <mat-form-field>
+                        <input matInput placeholder="Confirme el password" formControlName="confirmPassword" [errorStateMatcher]="matcher"
+                        type="password">
+                          <mat-error *ngIf="myForm.hasError('notSame')">
+                            Los Passwords no coinciden
+                        </mat-error>  
+                    </mat-form-field>   
+           </td>
+      </tr>  
+      
+      <mat-toolbar >
+            <button mat-icon-button matTooltip="Cancelar" (click)="flag(islogged ? false : true)">  
+              <mat-icon svgIcon="cancel"></mat-icon>    
+            </button>
+            <button mat-icon-button matTooltip="Guardar los Datos" type="submit"
+             (click)="set_password();">
+                <mat-icon svgIcon="guardar"></mat-icon>    
+            </button> 
+        </mat-toolbar>
+    </ng-container>
+    </table>      
+        
+</form>

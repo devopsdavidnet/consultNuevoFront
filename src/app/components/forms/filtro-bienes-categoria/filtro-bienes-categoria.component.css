@@ -1,0 +1,33 @@
+/*
+*----------------------------------------------------------------------------------
+*-- Creado: mheredia                               Fecha: 02/11/2020             --
+*-- Módulo: Consulta de Bienes                                                   --
+*-- Hoja de estilos consulta de bienes por categorías                            --
+*----------------------------------------------------------------------------------
+*/
+
+.mat-table {
+    overflow-x: scroll;    
+}
+
+.mat-header-cell {
+    display: table-cell;
+}
+
+.customWidthClass{
+  flex: 0 0 120px;
+}
+
+.inputWidthClass{
+  width: 120px;
+}
+
+.multiline-tooltip{
+  white-space: pre-line;
+}
+
+button {
+  background: transparent;
+  border: none !important;
+  font-size:0;
+}

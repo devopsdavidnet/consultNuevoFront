@@ -1,0 +1,102 @@
+<!--
+*----------------------------------------------------------------------------------
+*-- Creado: AINIGUEZ                               Fecha: 03/08/2020             --
+*-- Módulo: Consulta de Bienes                                                   --
+*-- Plantilla HTML vista menu de navegación de opciones de búsqueda           --
+*----------------------------------------------------------------------------------
+-->
+
+<mat-sidenav-container class="sidenav-container">
+  
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="(isHandset$ | async) === false">
+      <img src="/assets/dircabi.png" />
+   
+    <mat-nav-list> 
+      <a mat-list-item routerLink="bienvenido" style="font-weight:bold; color: #154360;">
+        <mat-icon>home</mat-icon>&nbsp;INICIO</a>
+   
+      <a mat-list-item routerLink="filtroFelcn" style="font-weight:bold; color: #154360;">
+        <mat-icon>folder_shared</mat-icon>&nbsp;Caso FELCN</a> 
+
+      <a mat-list-item (click)="openUiElements()" style="font-weight:bold; color: #154360;"> 
+        <mat-icon>location_city</mat-icon>&nbsp;Bienes <mat-icon>keyboard_arrow_down</mat-icon>
+      </a>
+
+      <div *ngIf="!isOpenUiElements">
+          <a mat-list-item (click)="redireccionar(1)" >
+            &nbsp;&nbsp;&nbsp;<span style="font-size:small; font-weight:bold; color: #154360;"><mat-icon svgIcon="home" style="width: 14px; height: 14px;"></mat-icon>&nbsp;Inmueble</span>  
+          </a>
+          <a mat-list-item routerLink="filtroBienCategoria/2" (click)="redireccionar(2)" >
+            &nbsp;&nbsp;&nbsp;<span style="font-size:small; font-weight:bold; color: #154360;"><mat-icon svgIcon="car" style="width: 14px; height: 14px;"></mat-icon>&nbsp;Medios de &nbsp;transporte</span>
+          </a>
+          <a mat-list-item routerLink="filtroBienCategoria/3" (click)="redireccionar(3)" >
+            &nbsp;&nbsp;&nbsp;<span style="font-size:small; font-weight:bold; color: #154360;"><mat-icon svgIcon="tv" style="width: 14px; height: 14px;"></mat-icon>&nbsp;Equipos &nbsp;Electrónicos</span>
+          </a>
+          <a mat-list-item routerLink="filtroBienCategoria/4" (click)="redireccionar(4)">
+            &nbsp;&nbsp;&nbsp;<span style="font-size:small; font-weight:bold; color: #154360;"><mat-icon svgIcon="money-bill-wave" style="width: 14px; height: 14px;"></mat-icon>&nbsp;Valores</span>
+          </a>
+          <a mat-list-item routerLink="filtroBienCategoria/5" >
+            &nbsp;&nbsp;&nbsp;<span style="font-size:small; font-weight:bold; color: #154360;"><mat-icon svgIcon="canadian-maple-leaf" style="width: 14px; height: 14px;"></mat-icon>&nbsp;Sust. &nbsp;controladas</span>
+          </a>
+          <a mat-list-item routerLink="filtroBienCategoria/6" >
+            &nbsp;&nbsp;&nbsp;<span style="font-size:small; font-weight:bold; color: #154360;"><mat-icon svgIcon="horse" style="width: 14px; height: 14px;"></mat-icon> &nbsp;Semovientes</span>
+          </a>
+          <a mat-list-item routerLink="filtroBienCategoria/7" >
+            &nbsp;&nbsp;&nbsp;<span style="font-size:small; font-weight:bold; color: #154360;"><mat-icon svgIcon="pistola" style="width: 14px; height: 14px;"></mat-icon>&nbsp;Armas</span>
+          </a>
+          <a mat-list-item routerLink="filtroBienCategoria/8" >
+            &nbsp;&nbsp;&nbsp;<span style="font-size:small; font-weight:bold; color: #154360;"><mat-icon svgIcon="cube" style="width: 14px; height: 14px;"></mat-icon>&nbsp;Otros Bienes</span>            
+          </a>
+        </div>  
+
+      <a mat-list-item routerLink="filtroInventario" style="font-weight:bold; color: #154360;">
+        <mat-icon>dashboard</mat-icon>&nbsp;Inventarios</a>
+    
+      <a mat-list-item routerLink="filtroImplicado" style="font-weight:bold; color: #154360;">
+        <mat-icon>supervisor_account</mat-icon>&nbsp;Implicados</a>
+      
+      <a mat-list-item routerLink="filtroBienAdeudado" style="font-weight:bold; color: #154360;">
+        <mat-icon>domain</mat-icon>&nbsp;Bienes Adeudados</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  
+  <mat-sidenav-content>
+    <mat-toolbar  color="primary">
+      
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="isHandset$ | async">        
+        <mat-icon aria-label="Side nav toggle icon" svgIcon="menu"></mat-icon>
+      </button>
+      <span class="example-toolbar">Usuario: &nbsp;{{usuario}} <br>
+          Oficina: &nbsp; {{oficina}}         
+      </span> 
+ 
+      <span class="example-spacer"></span>
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon svgIcon="more_vert"></mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item >
+          <mat-icon svgIcon="home"></mat-icon>
+          <span>Inicio</span>
+        </button>
+        <button mat-menu-item routerLink="DatosPersonales">
+          <mat-icon svgIcon="perm_contact"></mat-icon>
+          <span>Datos Personales</span>
+        </button> 
+        <button mat-menu-item  (click)="MandarIslogged(false)">
+            <mat-icon svgIcon="logout"></mat-icon>
+            <span>Salir</span>
+          </button>        
+      </mat-menu>         
+    </mat-toolbar>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

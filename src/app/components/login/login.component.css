@@ -1,0 +1,62 @@
+/*
+*----------------------------------------------------------------------------------
+*-- Creado: AINIGUEZ                               Fecha: 03/08/2020             --
+*-- Módulo: Consulta de Bienes                                                   --
+*-- Hoja de Estilos vista usuario y contraseña para ingresar al sistema          --
+*----------------------------------------------------------------------------------
+*/
+
+p {
+  font-family: Lato;  
+}
+  
+.example-card {
+  max-width: 200px;
+  margin : 40px;
+  border-style:hidden;
+  text-align: center;  
+}
+
+.example-icon {
+  padding: 0 14px;
+}
+
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.mat-form-field {
+  width: 100%;
+  min-width: 250px;
+}
+
+mat-card {   
+  justify-content: center;
+  margin: 50px 0px;    
+  text-align: center;     
+  border-style: hidden;
+}
+
+mat-card-title,
+mat-card-content {
+  display: flex;
+  justify-content: center;
+}
+
+.error {
+  padding: 16px;
+  width: 300px;
+  color: white;
+  background-color: red;
+}
+
+.button {
+  display: flex;  
+  justify-content: center;
+}
+
+img {
+  width:100%;
+  max-width:270px;
+  
+}

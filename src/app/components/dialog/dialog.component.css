@@ -1,0 +1,32 @@
+/*
+*----------------------------------------------------------------------------------
+*-- Creado: AINIGUEZ                               Fecha: 03/08/2020            --
+*-- Módulo: Consulta de Bienes                                                   --
+*-- Plantilla de estilos cuadro de diálogo                                       --
+*----------------------------------------------------------------------------------
+*/
+
+.mat-dialog-container {
+    display: flex !important;
+    flex-direction: column;
+    font-size-adjust: inherit;
+}
+
+.mat-dialog-container > * {
+    display: flex;
+    flex-direction: column;
+    font-size-adjust: inherit;
+}
+
+.mat-dialog-content {
+    max-height: inherit !important;
+}
+
+.mat-dialog-actions {
+    display: block !important;
+    flex-grow: inherit;
+    flex-shrink: inherit;
+    padding: 12px 0 0 !important;
+    font-size-adjust: inherit;
+
+}

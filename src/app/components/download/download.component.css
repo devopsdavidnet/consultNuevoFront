@@ -1,0 +1,16 @@
+/*
+*----------------------------------------------------------------------------------
+*-- Creado: AINIGUEZ                               Fecha: 03/08/2020            --
+*-- Módulo: Consulta de Bienes                                                   --
+*-- Hoja de estilos del gestor de descargas                                      --
+*----------------------------------------------------------------------------------
+*/
+
+a.class_a_href{    
+    cursor: default;
+    border:0; 
+    background-color:#fff; 
+    text-decoration:underline; 
+    color:#000; 
+    cursor:pointer;
+}

@@ -1,0 +1,29 @@
+<!--
+*----------------------------------------------------------------------------------
+*-- Creado: AINIGUEZ                                Fecha: 02/09/2020            --
+*-- Módulo: Consulta de Bienes                                                   --
+*-- Plantilla HTML muestra el detalle del inventario                             --
+*----------------------------------------------------------------------------------
+-->
+
+<mat-toolbar color="primary">
+        <button mat-icon-button mat-dialog-close (click)="onNoClick()">
+          <mat-icon svgIcon="cancelar"></mat-icon>    
+        </button>
+        <span class="example-toolbar">Detalle del Inventario
+        </span>    
+</mat-toolbar>
+<table mdbTable>
+        <thead>
+          <tr>
+            <th *ngFor="let head of headElements" scope="col">{{head}} </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr mdbTableCol *ngFor="let el of inventario$">                  
+            <td>{{el.descCaracteristica}}</td>
+            <td>{{el.detalle}}</td>            
+            <td>{{el.detalleNum}}</td>
+          </tr>
+        </tbody>
+</table>

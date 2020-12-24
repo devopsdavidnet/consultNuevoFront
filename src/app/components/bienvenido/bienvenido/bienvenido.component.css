@@ -1,0 +1,28 @@
+/*
+*----------------------------------------------------------------------------------
+*-- Creado: AINIGUEZ                               Fecha: 03/08/2020            --
+*-- Módulo: Consulta de Bienes                                                   --
+*-- Plantilla de estilos pantalla inicial de la aplicación                       --
+*----------------------------------------------------------------------------------
+*/
+
+img {
+    width:90%;
+    max-width:220px;
+    display: block;
+  margin-left: auto;
+  margin-right: auto;
+ 
+}
+h1 {
+    font-size: 28px;
+    color:#4f5050;
+    
+    text-align: center;
+  }
+mat-card {   
+    justify-content: center;
+    margin: 36px 9px;    
+    text-align: center;     
+    border-style:  hidden;
+}

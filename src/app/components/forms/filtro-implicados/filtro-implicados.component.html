@@ -1,0 +1,119 @@
+<!--
+*----------------------------------------------------------------------------------
+*-- Creado: AINIGUEZ                                Fecha: 02/11/2020            --
+*-- Módulo: Consulta de Bienes                                                   --
+*-- Plantilla HTML muestra la pantalla de búsqueda de bienes por implicados      --
+*----------------------------------------------------------------------------------
+-->
+
+<div style="font-family:sans-serif; color: darkblue;text-align: center;font-weight: bold;">BUSQUEDA POR IMPLICADO</div>
+
+<form clas="form-control">     
+    <div class="example-container">         
+        <mat-form-field>
+          <mat-label style="color:rgb(5, 28, 104);">Nombre Implicado</mat-label>
+        <input matInput type="text" name="dato"  id="dato" placeholder="Nombre Implicado"
+        [(ngModel)]="formulario.dato" required minlength="2">    
+        <mat-error *ngIf="dato.invalid">{{getErrorMessage()}}</mat-error> 
+      </mat-form-field>
+    </div>    
+    <mat-form-field>
+        <mat-label style="color:rgb(5, 28, 104);">Tipo Implicado</mat-label>
+           <mat-select [(ngModel)]="formulario.implicado" name ="implicado">
+             <mat-option *ngFor="let impl of implicados" [value]="impl.value" >
+               {{impl.viewValue}}               
+             </mat-option>
+          </mat-select>
+    </mat-form-field>    
+    <div  class="example-button-row">
+    <button mat-icon-button  matTooltip="Buscar" color="primary" (click)="buscarImplicado('',formulario.dato,formulario.implicado);" type="submit">
+        <mat-icon svgIcon="buscar"></mat-icon>
+    </button>
+     
+    <button mat-icon-button  matTooltip="Exportar a excel" color="primary" (click)="buscarImplicado('excel',formulario.dato,formulario.implicado);" *ngIf="mostrar">
+        <mat-icon svgIcon="excel"></mat-icon>
+    </button>   
+    
+    </div>
+    <img src="assets/cargando.gif" *ngIf="swCargando"/>   
+  </form>
+  <div class="example-container">
+      <mat-error>{{mensaje}}</mat-error>
+    </div>
+<div class="example-container mat-elevation-z8">
+  <mat-form-field *ngIf="mostrar" >
+    <mat-label>Buscar..</mat-label>
+    <input matInput (keyup)="applyFilter($event)" placeholder="Buscar por (Apertura Caso, Recepcion Bien,Nro File, Nombre,Fecha Recepcion, Inicio Contrato,Tipo Bien,Categoria, Caracteristica Bien)">
+  </mat-form-field>
+    <mat-table [dataSource]="dataSource" matSort>
+  
+      <!-- ID Column -->
+      <ng-container matColumnDef="nroCasoFelcn">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> CASO FELCN </mat-header-cell>
+          <mat-cell *matCellDef="let row" data-label="Caso Felcn"> {{row.nroCasoFelcn}} </mat-cell>
+      </ng-container>
+
+      <!-- Progress Column -->
+      <ng-container matColumnDef="nombreCaso">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> NOMBRE </mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="Nombre"> {{row.nombreCaso}} </mat-cell>
+      </ng-container>
+  
+      <!-- ID Column -->
+      <ng-container matColumnDef="codBien">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>BIEN</mat-header-cell>
+          <mat-cell *matCellDef="let row" data-label="Bien"> {{row.codBien}} </mat-cell>
+        </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="tipoBien">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> TIPO BIEN </mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="Tipo Bien"> {{row.tipoBien}} </mat-cell>
+      </ng-container>
+  
+      <!-- Color Column -->
+      <ng-container matColumnDef="categoria">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> CATEGORIA </mat-header-cell>
+        <mat-cell *matCellDef="let row" [style.color]="row.categoria" data-label="Categoria"> {{row.categoria}} </mat-cell>
+      </ng-container>
+
+      <!-- implicado Column -->
+      <ng-container matColumnDef="dato">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> IMPLICADO </mat-header-cell>
+        <mat-cell *matCellDef="let row" [style.color]="row.dato" data-label="Implicado"> {{row.dato}} </mat-cell>
+      </ng-container>
+
+        <!-- ID Column -->
+     <ng-container matColumnDef="oficianaAperturaCaso">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>OFICINA APERTURA CASO</mat-header-cell>
+      <mat-cell *matCellDef="let row" data-label="Bien"> {{row.aperturaCasoDistrital}} </mat-cell>
+    </ng-container>
+
+    <!-- ID Column -->
+    <ng-container matColumnDef="oficianaRecepcionBien">
+     <mat-header-cell *matHeaderCellDef mat-sort-header>OFICINA RECEPCIÓN BIEN</mat-header-cell>
+     <mat-cell *matCellDef="let row" data-label="Bien"> {{row.oficinaRecepcion}} </mat-cell>
+   </ng-container>
+   
+      <!-- Color accions -->
+      <ng-container matColumnDef="accion">
+        <mat-header-cell *matHeaderCellDef mat-sort-header > OPCIONES </mat-header-cell>
+        <mat-cell *matCellDef="let row"  data-label="ACCION">
+            <button mat-icon-button (click)="openInventario(row.codBien)">          
+                <mat-icon svgIcon="inventario"></mat-icon>          
+            </button>    
+            <button mat-icon-button (click)="openDialog(row)">            
+              <mat-icon svgIcon="ver"></mat-icon>
+            </button>
+                <!--<app-download [codbien]='row.codBien' archivo='Kardex' #selector1></app-download>--> 
+            <button mat-icon-button (click) ="openPdf(row.codBien)" matTooltip="Generar Kardex">              
+              <mat-icon svgIcon="pdf"></mat-icon>
+            </button> 
+        </mat-cell>     
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;">
+      </mat-row>
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[10, 20,30]" showFirstLastButtons></mat-paginator>
+</div>

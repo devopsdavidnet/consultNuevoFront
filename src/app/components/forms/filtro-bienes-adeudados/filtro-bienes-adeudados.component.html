@@ -1,0 +1,163 @@
+<!--
+*----------------------------------------------------------------------------------
+*-- Creado: AINIGUEZ                               Fecha: 03/08/2020            --
+*-- Módulo: Consulta de Bienes                                                   --
+*-- Plantilla HTML muestra la pantalla de búsqueda de bienes adeudados           -- 
+*----------------------------------------------------------------------------------
+-->
+
+<div style="font-family:sans-serif; color: darkblue;text-align: center;font-weight: bold;">BUSQUEDA POR BIENES ADEUDADOS</div>
+<form clas="form-control">     
+        <div class="example-container">    
+            <mat-form-field>    
+              <mat-label style="color:rgb(5, 28, 104);">Entidad Beneficiada</mat-label>
+              <input matInput type="text" name="dato"  id="dato"  
+              [(ngModel)]="formulario.dato" >   
+            
+            </mat-form-field>
+        </div>   
+        <mat-form-field>
+          <mat-label style="color:rgb(5, 28, 104);">Oficina de Recepción del Bien</mat-label>
+               <mat-select [(ngModel)]="formulario.oficina" name ="oficina" >
+                 <mat-option *ngFor="let ofi of oficinasCasos" [value]="ofi.codigo" >
+                   {{ofi.descripcion}}               
+                 </mat-option>
+              </mat-select>
+        </mat-form-field>   
+        
+        <mat-form-field>
+          <mat-label style="color:#051c68;">Fecha Inicio de Contrato</mat-label> 
+            <input matInput [matDatepicker]="picker" placeholder="Fecha inicio de Contrato" [value]="date.value"  [(ngModel)]="formulario.fechaInicio" name ="fechaInicio" >
+            <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label style="color:rgb(5, 28, 104);">Fecha Fin de contrato</mat-label> 
+            <input matInput [matDatepicker]="picker3" placeholder="Fecha fin de contrato" [value]="date.value" [(ngModel)]="formulario.fechaFin" name ="fechaFin">
+            <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+            <mat-datepicker #picker3></mat-datepicker>
+        </mat-form-field>
+      <section class="example-section" >
+      <mat-radio-group (change)="onChange($event)" name="gender">
+        
+        <mat-radio-button value="S" checked><mat-label style="color:rgb(5, 28, 104);"> Contratos vencidos</mat-label></mat-radio-button>
+        <mat-radio-button value="N"><mat-label style="color:rgb(5, 28, 104);">Contratos vigentes</mat-label></mat-radio-button>
+      </mat-radio-group>
+    </section>
+        <div  class="example-button-row">
+           <button  mat-icon-button  matTooltip="Buscar" color="primary" (click)="buscarAdeudado('',formulario.dato,formulario.oficina,formulario.fechaInicio,formulario.fechaFin);" type="submit">
+              <mat-icon svgIcon="buscar"></mat-icon>
+            </button>   
+            
+            <button mat-icon-button  matTooltip="Exportar a excel" color="primary" (click)="buscarAdeudado('excel',formulario.dato,formulario.oficina,formulario.fechaInicio,formulario.fechaFin);" *ngIf="mostrar">
+                <mat-icon svgIcon="excel"></mat-icon>
+            </button>       
+        </div>       
+        <img src="assets/cargando.gif" *ngIf="swCargando"/>       
+    </form>  
+    <div class="example-container">          
+        <mat-error >{{mensaje}}</mat-error>      
+    </div>     
+    <div class="example-container mat-elevation-z8">
+      <mat-form-field *ngIf="mostrar" >
+        <mat-label>Buscar..</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar por (Apertura Caso, Recepcion Bien,Nro File, Nombre,Fecha Recepcion, Inicio Contrato,Tipo Bien,Categoria, Caracteristica Bien)">
+      </mat-form-field>
+        <mat-table [dataSource]="dataSource" matSort>
+      
+          <!-- ID Column -->
+          <ng-container matColumnDef="nroCasoFelcn">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> CASO FELCN </mat-header-cell>
+              <mat-cell *matCellDef="let row" data-label="Caso Felcn"> {{row.nroCasoFelcn}} </mat-cell>
+          </ng-container>
+    
+          <!-- Progress Column -->
+          <ng-container matColumnDef="fechaRecepcion">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> FECHA RECEPCION </mat-header-cell>
+              <mat-cell *matCellDef="let row" data-label="fecha Recepción"> {{row.fechaRecepcion}} </mat-cell>
+          </ng-container>
+    
+          <!-- Progress Column -->
+          <ng-container matColumnDef="nombreCaso">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> NOMBRE </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="Nombre"> {{row.nombreCaso}} </mat-cell>
+          </ng-container>
+    
+          <!-- Caracterista Inventario Column -->
+          <ng-container matColumnDef="dato">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> CONTRATO VENCIDO </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="Contrato Vencido"> {{row.dato}} </mat-cell>
+          </ng-container>
+          <!-- ID Column -->
+          <ng-container matColumnDef="codBien" >  
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Bien</mat-header-cell>
+              <mat-cell *matCellDef="let row" data-label="Bien" > {{row.codBien}} </mat-cell>     
+          </ng-container>  
+          <!-- ID Column -->
+          <ng-container matColumnDef="fechaInicioContrato">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>INICIO DE CONTRATO</mat-header-cell>
+              <mat-cell *matCellDef="let row" data-label="Bien"> {{row.fechaInicioContrato}} </mat-cell>
+            </ng-container>        
+            <!-- ID Column -->
+          <ng-container matColumnDef="fechaFinalContrato">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>FIN DE CONTRATO</mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="Bien"> {{row.fechaFinalContrato}} </mat-cell>
+          </ng-container>
+          <!-- Name Column -->
+          <ng-container matColumnDef="tipoBien">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> TIPO BIEN </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="Tipo Bien"> {{row.tipoBien}} </mat-cell>
+          </ng-container>
+     
+         <!-- Color Column -->
+         <ng-container matColumnDef="subcategoria">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> SUB CATEGORIA </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="Sub Categoria"> {{row.subCategoria}} </mat-cell>
+          </ng-container>      
+    
+          <!-- Color Column -->
+          <ng-container matColumnDef="categoria">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> CATEGORIA </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="Categoria"> {{row.categoria}} </mat-cell>
+          </ng-container>
+
+          <!-- Color Column -->
+          <ng-container matColumnDef="razonSocial">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> RAZON SOCIAL </mat-header-cell>
+            <mat-cell *matCellDef="let row" data-label="Razon Social"> {{row.razonSocial}} </mat-cell>
+          </ng-container>
+           <!-- ID Column -->
+     <ng-container matColumnDef="oficianaAperturaCaso">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>OFICINA APERTURA CASO</mat-header-cell>
+      <mat-cell *matCellDef="let row" data-label="Bien"> {{row.aperturaCasoDistrital}} </mat-cell>
+    </ng-container>
+
+    <!-- ID Column -->
+    <ng-container matColumnDef="oficianaRecepcionBien">
+     <mat-header-cell *matHeaderCellDef mat-sort-header>OFICINA RECEPCIÓN BIEN</mat-header-cell>
+     <mat-cell *matCellDef="let row" data-label="Bien"> {{row.oficinaRecepcion}} </mat-cell>
+   </ng-container>--
+          <!-- Color accions -->
+          <ng-container matColumnDef="accion">
+            <mat-header-cell *matHeaderCellDef mat-sort-header > OPCIONES </mat-header-cell>
+            <mat-cell *matCellDef="let row"  data-label="ACCION">
+                <button mat-icon-button (click)="openInventario(row.codBien)">          
+                    <mat-icon svgIcon="inventario"></mat-icon>          
+                  </button>    
+                  <button mat-icon-button (click)="openDialog(row)">            
+                    <mat-icon svgIcon="ver"></mat-icon>
+                  </button>
+                    <!--<app-download [codbien]='row.codBien' archivo='Kardex' #selector1></app-download>--> 
+                  <button mat-icon-button (click) ="openPdf(row.codBien)"   matTooltip="Generar Kardex">              
+                    <mat-icon svgIcon="pdf"></mat-icon>
+                  </button> 
+            </mat-cell>     
+          </ng-container>
+      
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;">
+          </mat-row>
+        </mat-table>
+        <mat-paginator [pageSizeOptions]="[10, 20,30]" showFirstLastButtons></mat-paginator>
+      </div>
+    

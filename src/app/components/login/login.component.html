@@ -1,0 +1,58 @@
+<!--
+*----------------------------------------------------------------------------------
+*-- Creado: AINIGUEZ                               Fecha: 03/08/2020             --
+*-- Módulo: Consulta de Bienes                                                   --
+*-- Plantilla HTML vista usuario y contraseña para ingresar al sistema           --
+*----------------------------------------------------------------------------------
+-->
+
+<ng-container *ngIf="!getislogged(); else logged">
+    <mat-toolbar color="primary">
+            <mat-toolbar-row>
+              <span>SISTEMA DE CONSULTA DE BIENES INCAUTADOS</span>
+              <span class="example-spacer"></span>
+              <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                <mat-icon svgIcon="more_vert"></mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item>
+                  <mat-icon svgIcon="contacts"></mat-icon>
+                  <span>Contacto</span>
+                </button>           
+              </mat-menu>      
+            </mat-toolbar-row>      
+    </mat-toolbar>          
+          <mat-card> 
+            <img src="/assets/dircabi.png" />
+            <mat-card-title>Inicio de Sesión</mat-card-title>  
+            <mat-card-content>   
+              <form >   
+                <p>
+                  <mat-form-field appearance="outline">  
+                    <mat-label>Usuario</mat-label>  
+                    <input matInput placeholder="Usuario :" [(ngModel)]="username" name="username" required>   
+                  </mat-form-field>                     
+                </p>    
+                <p>
+                  <mat-form-field appearance="outline">   
+                    <mat-label>Contraseña</mat-label>
+                    <mat-icon svgIcon="lock" matSuffix>lock</mat-icon>
+                    <mat-hint>Introduzca su clave de acceso</mat-hint>
+                    <input matInput placeholder="Contraseña :" [(ngModel)]="password"type="password" name="password" required>   
+                  </mat-form-field>         
+                </p>
+              <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>               
+            <mat-card-actions class="button">              
+              <button mat-raised-button (click)="login()" color="primary">
+                Ingresar
+              </button>                 
+            </mat-card-actions>   
+          </form>   
+          </mat-card-content>   
+          </mat-card>    
+</ng-container>
+<ng-template #logged>
+    <main>          
+        <app-navegacion (islogged)="CambiarLogged($event)"></app-navegacion>
+    </main> 
+</ng-template>

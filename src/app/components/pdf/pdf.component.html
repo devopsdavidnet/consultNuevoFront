@@ -1,0 +1,22 @@
+<!--
+*----------------------------------------------------------------------------------
+*-- Creado: AINIGUEZ                               Fecha: 03/08/2020             --
+*-- Módulo: Consulta de Bienes                                                   --
+*-- Plantilla HTML vista para generar el pdf                                     --
+*----------------------------------------------------------------------------------
+-->
+
+<mat-toolbar color="primary">
+    <button mat-icon-button mat-dialog-close (click)="onNoClick()">
+      <mat-icon svgIcon="cancelar"></mat-icon>    
+    </button>
+    <app-download [codbien]='codigobien' archivo='descargar'></app-download>    
+</mat-toolbar>
+<mat-dialog-content>        
+    <div class="pdf-container">
+        <pdf-viewer [src]="src"
+                    [original-size]="false">
+        </pdf-viewer>
+    </div>
+</mat-dialog-content>
+    

@@ -1,0 +1,165 @@
+<!--
+*----------------------------------------------------------------------------------
+*-- Creado: AINIGUEZ                                Fecha: 02/11/2020            --
+*-- Módulo: Consulta de Bienes                                                   --
+*-- Plantilla HTML muestra la pantalla de búsqueda de bienes por campos FELCN    --
+*----------------------------------------------------------------------------------
+-->
+
+<div style="font-family:sans-serif; color: darkblue;text-align: center;font-weight: bold;">BUSQUEDA POR CASO FELCN</div>
+<form >
+    <table>
+      <tr>
+        <td>
+          <mat-form-field >
+            <mat-label style="color:rgb(5, 28, 104);">Codigo Caso</mat-label>
+            <input matInput #txtVal type="text" name="numeroCasoFelcn" id="numeroCasoFelcn" 
+              placeholder="Caso FELCN" [(ngModel)]="formulario.numeroCasoFelcn"  required
+              (keypress)="onkeypress(txtVal.value)" minlength="3">
+            <mat-error *ngIf="numeroCasoFelcn.invalid">{{getErrorMessage()}}</mat-error>
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field>
+            <mat-label style="color:rgb(5, 28, 104);">Nombre Caso</mat-label>
+            <input matInput #txtVal type="text" name="nombreCasoFelcn" id="nombreCasoFelcn" 
+               [(ngModel)]="formulario.nombreCasoFelcn"  required
+              (keypress)="onkeypress(txtVal.value)" minlength="3">
+          </mat-form-field>
+        </td>
+        <td>
+          <mat-form-field>
+            <mat-label style="color:rgb(5, 28, 104);">Número File</mat-label>
+            <input matInput #txtVal type="text" name="numerofile" id="numerofile" placeholder="Número de File"
+              [(ngModel)]="formulario.numerofile" >
+          </mat-form-field>
+        </td>
+      </tr>
+    </table>
+  <div class="example-button-row" >
+     <button mat-icon-button matTooltip="Buscar" color="primary" (click)="buscarCasoFelcn(formulario.numeroCasoFelcn,formulario.nombreCasoFelcn,formulario.numerofile);"
+        type="submit">
+        <mat-icon svgIcon="buscar"></mat-icon>
+     </button>
+     
+   
+     <app-download [nrocaso]='formulario.numeroCasoFelcn' [nombreCaso]='formulario.nombreCasoFelcn'[nrofile]='formulario.numerofile' archivo='excel'  *ngIf="mostrar"></app-download>
+ 
+     <app-download [nrocaso]='formulario.numeroCasoFelcn' [nrofile]='formulario.numerofile' archivo='pdf'  *ngIf="mostrar"></app-download>
+    
+     <br>
+     <img src="assets/cargando.gif" *ngIf="swCargando"/>
+  
+</div>
+</form>
+  <div class="example-container">
+    <mat-error>{{mensaje}}</mat-error>
+  </div>
+<div class="example-container mat-elevation-z8" >
+    <mat-form-field *ngIf="mostrar">
+      <mat-label>Buscar..</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Buscar por (Apertura Caso, Recepcion Bien,Nro File, Nombre,Fecha Recepcion, Inicio Contrato,Tipo Bien,Categoria, Caracteristica Bien)">
+</mat-form-field>
+<mat-table [dataSource]="dataSource" matSort>
+    <!-- ID Column -->
+<ng-container matColumnDef="nroCasoFelcn" >
+      <mat-header-cell *matHeaderCellDef mat-sort-header> CASO FELCN </mat-header-cell>
+      <mat-cell *matCellDef="let row" data-label="Caso Felcn"> {{row.nroCasoFelcn}} </mat-cell>
+</ng-container> 
+    <!-- ID Column -->
+  <ng-container matColumnDef="nroFile">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> NRO. FILE</mat-header-cell>
+        <mat-cell *matCellDef="let row" data-label="Nro. File"> {{row.nroFile}} </mat-cell>
+  </ng-container>
+    
+    <!-- Progress Column -->
+    <ng-container matColumnDef="fechaRecepcion">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> FECHA RECEPCION </mat-header-cell>
+      <mat-cell *matCellDef="let row" data-label="fecha Recepción"> {{row.fechaRecepcion}}</mat-cell>
+    </ng-container>
+
+    <!-- Progress Column -->
+    <ng-container matColumnDef="nombreCaso">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> NOMBRE </mat-header-cell>
+      <mat-cell *matCellDef="let row" data-label="Nombre"> {{row.nombreCaso}} </mat-cell>
+    </ng-container>
+
+    <!-- ID Column -->
+    <ng-container matColumnDef="codBien">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>BIEN</mat-header-cell>
+      <mat-cell *matCellDef="let row" data-label="Bien"> {{row.codBien}} </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="tipoBien">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> TIPO BIEN </mat-header-cell>
+      <mat-cell *matCellDef="let row" data-label="Tipo Bien"> {{row.tipoBien}} </mat-cell>
+    </ng-container>
+
+    <!-- Color Column -->
+    <ng-container matColumnDef="subcategoria">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> SUB CATEGORIA </mat-header-cell>
+      <mat-cell *matCellDef="let row" data-label="Sub Categoria"> {{row.subCategoria}} </mat-cell>
+    </ng-container>
+
+    <!-- Color Column -->
+    <ng-container matColumnDef="categoria">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> CATEGORIA </mat-header-cell>
+      <mat-cell *matCellDef="let row" data-label="Categoria"> {{row.categoria}} </mat-cell>
+    </ng-container>
+
+    <!-- Caracterista Inventario Column -->
+    <ng-container matColumnDef="dato">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> CARACTERISTICA BIEN </mat-header-cell>
+      <mat-cell *matCellDef="let row" data-label="Contrato Vencido"> {{row.dato}} </mat-cell>
+    </ng-container>
+    <!-- ID Column -->
+    <ng-container matColumnDef="fechaInicioContrato">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>INICIO DE CONTRATO</mat-header-cell>
+      <mat-cell *matCellDef="let row" data-label="Bien"> {{row.fechaInicioContrato}} </mat-cell>
+    </ng-container>
+   
+   <!-- ID Column -->
+     <ng-container matColumnDef="oficianaAperturaCaso">
+       <mat-header-cell *matHeaderCellDef mat-sort-header>OFICINA APERTURA CASO</mat-header-cell>
+       <mat-cell *matCellDef="let row" data-label="Bien"> {{row.aperturaCasoDistrital}} </mat-cell>
+     </ng-container>
+
+     <!-- ID Column -->
+     <ng-container matColumnDef="oficianaRecepcionBien">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>OFICINA RECEPCIÓN BIEN</mat-header-cell>
+      <mat-cell *matCellDef="let row" data-label="Bien"> {{row.oficinaRecepcion}} </mat-cell>
+    </ng-container>
+
+    <!-- ID Column -->
+
+    <ng-container matColumnDef="fechaFinalContrato">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>FIN DE CONTRATO</mat-header-cell>
+      <mat-cell *matCellDef="let row" data-label="Bien"> {{row.fechaFinalContrato}} </mat-cell>
+    </ng-container>
+
+    <!-- Color accions -->
+    <ng-container matColumnDef="accion">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> OPCIONES </mat-header-cell>
+      <mat-cell *matCellDef="let row" data-label="ACCION">
+          <button mat-icon-button (click)="openInventario(row.codBien)">          
+            <mat-icon svgIcon="inventario"></mat-icon>          
+          </button>    
+          <button mat-icon-button (click)="openDialog(row)">            
+            <mat-icon svgIcon="ver"></mat-icon>
+          </button>
+            <!--<app-download [codbien]='row.codBien' archivo='Kardex' #selector1></app-download>--> 
+          <button mat-icon-button (click) ="openPdf(row.codBien)" matTooltip="Generar Kardex">              
+            <mat-icon svgIcon="pdf"></mat-icon>
+          </button> 
+      </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;">
+    </mat-row>
+  </mat-table>
+
+  <mat-paginator [pageSizeOptions]="[10, 20,30]" showFirstLastButtons></mat-paginator>
+
+ 
+</div>

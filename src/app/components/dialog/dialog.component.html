@@ -1,0 +1,102 @@
+<!--
+*----------------------------------------------------------------------------------
+*-- Creado: AINIGUEZ                               Fecha: 03/08/2020            --
+*-- Módulo: Consulta de Bienes                                                   --
+*-- Plantilla HTML muestra la tabla detallada de bienes por caso                 -- 
+*----------------------------------------------------------------------------------
+-->
+
+<mat-toolbar color="primary">    
+    <button mat-icon-button href="#" mat-button [mat-dialog-close]>
+      <mat-icon svgIcon="cancelar"></mat-icon>  
+    </button>
+    <span class="example-toolbar">Detalle
+    </span>    
+</mat-toolbar>
+<div mat-dialog-container>
+    <table mat-dialog-content>
+      
+          <tr>
+            <th scope="col">Caso</th>
+            <th scope="col">Nombre Caso</th>            
+          </tr>
+          <tr>
+            <td>{{casos.nroCasoFelcn}}</td>
+            <td>{{casos.nombreCaso}}</td>
+          </tr>
+
+          <tr>
+            <th scope="col">Apertura Caso</th>
+            <th scope="col">Oficina Recepción</th>
+            <th scope="col">Fecha Recepción</th>
+          </tr>
+          <tr>
+            <td>{{casos.aperturaCasoDistrital}}</td>
+            <td>{{casos.oficinaRecepcion}}</td>
+            <td>{{casos.fechaRecepcion}}</td>
+          </tr>
+          <tr>
+            <th scope="col">Categoria</th>
+            <th scope="col">Sub Categoria</th>
+            <th scope="col">Tipo Bien</th>  
+          </tr>
+          <tr>
+            <td>{{casos.categoria}}</td>
+            <td>{{casos.subCategoria}}</td>
+            <td>{{casos.tipoBien}}</td>
+          </tr>   
+          <tr>      
+            <th scope="col">Delito</th>
+            <th scope="col">{{tipoBien}}</th>
+            <th scope="col">{{desModelo}}</th>
+          </tr>
+          <tr>
+            <td>{{casos.delito}}</td>
+            <td>{{casos.zonaBarrio}}</td>
+            <td>{{casos.calleAvenida}}</td>
+          </tr>          
+          <tr>
+            <th scope="col">{{invDato1}}</th>
+            <th scope="col">{{invDato2}}</th>
+            <th scope="col">{{invDato3}}</th>
+          </tr>
+          <tr>
+            <td>{{casos.numeroPuerta}}</td>
+            <td>{{casos.folioReal}}</td>
+            <td>{{casos.latitud}}</td>
+          </tr>
+          <tr>
+           <th scope="col">{{invDato4}}</th>
+            <th scope="col">Seg. Administrativo</th>
+            <th scope="col">Seg. Juridico</th>
+          </tr>
+          <tr>
+           <td>{{casos.longitud}}</td>
+            <td>{{casos.administrativo}}</td>
+            <td>{{casos.juridico}}</td>
+          </tr>
+
+          <tr>
+            <th scope="col">Estado Adm.</th>
+            <th scope="col">Estado Jud.</th>
+            <th scope="col">Inicio Contrato</th>
+          </tr>
+          <tr>
+            <td>{{casos.estadoAdm}}</td>
+            <td>{{casos.statusJudicial}}</td>
+            <td>{{casos.fechaInicioContrato}}</td>
+          </tr>
+          <tr>
+            <th scope="col">Final Contrato</th>
+            <th scope="col">Razon Social</th>
+            <th scope="col">Responsable</th>
+          </tr>
+          <tr>
+            <td>{{casos.fechaFinalContrato}}</td>
+            <td>{{casos.razonSocial}}</td>
+            <td>{{casos.responsable}}</td>
+          </tr>       
+          <th></th>
+          <th></th>  
+      </table>
+</div>

@@ -1,0 +1,206 @@
+<!--
+*----------------------------------------------------------------------------------
+*-- Creado: mheredia                                Fecha: 02/11/2020            --
+*-- Módulo: Consulta de Bienes                                                   --
+*-- Plantilla HTML muestra la pantalla de búsqueda de bienes de acuerdo a la     --
+*-- categoría seleccionada                                                       -- 
+*----------------------------------------------------------------------------------
+-->
+
+<br>
+<div style="font-family:sans-serif; color: #154360;text-align: center;font-weight: bold; font-size:x-large">
+    CATEGORIA : <mat-icon svgIcon="{{icono}}" style="width: 25px; height: 20px;"></mat-icon> {{titulo}}
+</div>
+<br>
+<mat-progress-bar mode="query" *ngIf="swCargando1"></mat-progress-bar>
+
+<div class="example-container">          
+    <mat-error >{{mensaje}}</mat-error>      
+</div> 
+
+<button matTooltip="Descargar Excel" (click)="buscar_reporte('excel')">
+  <mat-icon svgIcon="excel_color" style="color:#267348"></mat-icon> 
+</button>
+<button matTooltip="Descargar Pdf" (click)="buscar_reporte('pdf')">
+  <mat-icon svgIcon="pdf" style="color: #DB544A;"></mat-icon>
+</button>
+<hr>
+<form style="display: flex" [formGroup]="formControl">  
+  <mat-table [dataSource]="dataSource" matSort>
+  <!-- ID Caso FELCN -->
+  <ng-container matColumnDef="nroCasoFelcn" style="width: 100px; font-size: 11px;">
+    <mat-header-cell *matHeaderCellDef [ngClass]="'customWidthClass'"> 
+      <mat-form-field appearance="outline" style="width: 95px !important;" >
+        <mat-label> Caso FELCN </mat-label>
+        <input matInput formControlName="nroCasoFelcn" placeholder="Caso FELCN" matTooltip="Filtro: Caso FELCN">   
+      </mat-form-field>
+    </mat-header-cell>      
+    <mat-cell *matCellDef="let row" data-label="Caso Felcn" [ngClass]="'customWidthClass'"> {{row.nroCasoFelcn}} </mat-cell>
+  </ng-container>
+
+  <!-- fechaAperturaCaso Column -->
+  <ng-container matColumnDef="fechaAperturaCaso">
+    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'customWidthClass'"> 
+        <mat-form-field appearance="outline" class="inputWidthClass">
+            <mat-label> Fecha Apertura Caso </mat-label>
+            <input matInput id="fechaAperturaCaso" formControlName="fechaAperturaCaso" placeholder="Fecha Apertura Caso" matTooltip="Filtro: Fecha Inicial de Apertura Caso        DD/MM/AAAA" matTooltipClass="multiline-tooltip" minlength="10" maxlength="10">
+        </mat-form-field>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let row" data-label="fecha apertura" [ngClass]="'customWidthClass'"> {{row.fechaAperturaCaso}} </mat-cell>
+  </ng-container>
+
+   <!-- fechaAperturaCaso2 Column -->
+   <ng-container matColumnDef="fechaAperturaCaso2">
+    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'customWidthClass'"> 
+        <mat-form-field appearance="outline" class="inputWidthClass">
+            <mat-label> Fecha Apertura Caso </mat-label>
+            <input matInput formControlName="fechaAperturaCaso2" placeholder="Fecha Apertura Casooo" matTooltip="Filtro: Fecha Final Apertura Caso        DD/MM/AAAA" minlength="10" maxlength="10">        
+        </mat-form-field>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let row" data-label="fecha apertura" [ngClass]="'customWidthClass'"> {{row.fechaAperturaCaso}} </mat-cell>
+  </ng-container>
+
+
+  <!-- aperturaCasoDistrital Column -->
+  <ng-container matColumnDef="aperturaCasoDistrital">
+  <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'customWidthClass'">
+    <mat-form-field appearance="outline" class="inputWidthClass">
+        <mat-label> Apertura Caso Distrital </mat-label>
+        <input matInput formControlName="aperturaCasoDistrital" placeholder="Apertura Caso Distrital" matTooltip=" Filtro: Distrital Caso Apertura">        
+    </mat-form-field>
+  </mat-header-cell>
+  <mat-cell *matCellDef="let row" data-label="Bien" [ngClass]="'customWidthClass'"> {{row.aperturaCasoDistrital}} </mat-cell>
+  </ng-container>
+
+ <!-- oficinaRecepcion Column -->
+ <ng-container matColumnDef="oficinaRecepcion">
+    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'customWidthClass'">
+        <mat-form-field appearance="outline" class="inputWidthClass">
+            <mat-label> Oficina Recepción </mat-label>
+            <input matInput formControlName="oficinaRecepcion" placeholder="Oficina Recepción" matTooltip="Filtro: Oficina Recepción">        
+        </mat-form-field>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let row" data-label="Bien" [ngClass]="'customWidthClass'"> {{row.oficinaRecepcion}} </mat-cell>
+    </ng-container>
+
+  <!-- fechaRecepcion Column -->
+  <ng-container matColumnDef="fechaRecepcion">
+  <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'customWidthClass'"> 
+    <mat-form-field appearance="outline" class="inputWidthClass">
+        <mat-label> Fecha Recepción Inicial </mat-label>
+        <input matInput formControlName="fechaRecepcion" placeholder="Fecha Recepción Inicial" matTooltip="Filtro: Fecha Inicial de Recepción      DD/MM/AAAA" minlength="10" maxlength="10">        
+    </mat-form-field>
+</mat-header-cell>
+  <mat-cell *matCellDef="let row" data-label="fecha Recepción" [ngClass]="'customWidthClass'"> {{row.fechaRecepcion}} </mat-cell>
+  </ng-container>
+
+   <!-- fechaRecepcion2 Column -->
+   <ng-container matColumnDef="fechaRecepcion2">
+    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'customWidthClass'"> 
+      <mat-form-field appearance="outline" class="inputWidthClass">
+          <mat-label> Fecha Recepción Final</mat-label>
+          <input matInput formControlName="fechaRecepcion2" placeholder="Fecha Recepción Final" matTooltip="Filtro: Fecha Final de Recepción         DD/MM/AAAA" minlength="10" maxlength="10">        
+      </mat-form-field>
+  </mat-header-cell>
+    <mat-cell *matCellDef="let row" data-label="fecha Recepción" [ngClass]="'customWidthClass'"> {{row.fechaRecepcion}} </mat-cell>
+    </ng-container>
+
+  <!-- nombreCaso Column -->
+  <ng-container matColumnDef="nombreCaso">
+  <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'customWidthClass'"> 
+    <mat-form-field appearance="outline" class="inputWidthClass">
+        <mat-label> Nombre Caso </mat-label>
+      <input matInput formControlName="nombreCaso" placeholder="Nombre Caso" matTooltip="Filtro: Nombre del Caso">
+    </mat-form-field>      
+  </mat-header-cell>
+  <mat-cell *matCellDef="let row" data-label="Nombre" [ngClass]="'customWidthClass'"> {{row.nombreCaso}} </mat-cell>
+  </ng-container>
+
+  <!-- estadoAdm Column -->
+  <ng-container matColumnDef="estadoAdm">
+    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'customWidthClass'"> 
+        <mat-form-field appearance="outline" class="inputWidthClass" >
+            <mat-label> Estado Administrativo </mat-label>
+          <input matInput formControlName="estadoAdm" placeholder="Estado Administrativo" matTooltip="Filtro: Estado Administrativo">      
+        </mat-form-field>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let row" data-label="Estado Administrativo" [ngClass]="'customWidthClass'"> {{row.estadoAdm}} </mat-cell>
+  </ng-container> 
+
+ <!-- statusJudicial Column -->
+  <ng-container matColumnDef="statusJudicial">
+    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'customWidthClass'"> 
+        <mat-form-field appearance="outline" class="inputWidthClass" >
+            <mat-label> Estado Judicial </mat-label>
+          <input matInput formControlName="statusJudicial" placeholder="Estado Judicial" matTooltip="Filtro: Estado Judicial">      
+        </mat-form-field> </mat-header-cell>
+    <mat-cell *matCellDef="let row" data-label="Estado Judicial" [ngClass]="'customWidthClass'"> {{row.statusJudicial}} </mat-cell>
+  </ng-container>
+
+<!-- CATEGORIA -->
+<!-- <ng-container matColumnDef="categoria">
+    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'customWidthClass'"> 
+        <mat-form-field appearance="outline" class="inputWidthClass" >
+            <mat-label> categoria </mat-label>
+            <input matInput formControlName="categoria" placeholder="categoria">        
+          </mat-form-field>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let row" data-label="Categoria" [ngClass]="'customWidthClass'"> {{row.categoria}} </mat-cell>
+    </ng-container>  -->
+
+ <!-- subCategoria Column -->
+  <ng-container matColumnDef="subCategoria">
+    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'customWidthClass'"> 
+        <mat-form-field appearance="outline" class="inputWidthClass" >
+            <mat-label> Sub Categoria </mat-label>
+            <input matInput formControlName="subCategoria" placeholder="Sub Categoria" matTooltip="Filtro: Sub Categoria">        
+        </mat-form-field>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let row" data-label="Sub Categoria" [ngClass]="'customWidthClass'"> {{row.subCategoria}} </mat-cell>
+  </ng-container> 
+
+ <!-- tipoBien Column -->
+  <ng-container matColumnDef="tipoBien">
+    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'customWidthClass'"> 
+        <mat-form-field appearance="outline" class="inputWidthClass">
+            <mat-label> Tipo Bien </mat-label>
+            <input matInput formControlName="tipoBien" placeholder="Tipo Bien" matTooltip="Filtro: Tipo de Bien">        
+        </mat-form-field>
+    </mat-header-cell>
+    <mat-cell *matCellDef="let row" data-label="Tipo Bien" [ngClass]="'customWidthClass'"> {{row.tipoBien}} </mat-cell>
+  </ng-container>
+
+  <!-- Fecha Incautación Column -->
+  <ng-container matColumnDef="dato">
+    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'customWidthClass'"> FECHA INCAUTACION </mat-header-cell>
+    <mat-cell *matCellDef="let row" data-label="Fecha Incautación" [ngClass]="'customWidthClass'"> {{row.dato}} </mat-cell>
+  </ng-container>
+  <!-- ID Column -->
+  <ng-container matColumnDef="codBien">
+    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'customWidthClass'">BIEN</mat-header-cell>
+    <mat-cell *matCellDef="let row" data-label="Bien" [ngClass]="'customWidthClass'"> {{row.codBien}} </mat-cell>
+  </ng-container>
+       
+  <!-- accions -->
+  <ng-container matColumnDef="accion">
+    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'customWidthClass'"> &nbsp; &nbsp; OPCIONES </mat-header-cell>
+    <mat-cell *matCellDef="let row"  data-label="ACCION" [ngClass]="'customWidthClass'">
+      <button mat-icon-button (click)="openInventario(row.codBien)">          
+          <mat-icon svgIcon="inventario"></mat-icon>          
+        </button>    
+        <button mat-icon-button (click)="openDialog(row)">            
+          <mat-icon svgIcon="ver"></mat-icon>
+        </button>          
+        <button mat-icon-button (click) ="openPdf(row.codBien)" matTooltip="Generar Kardex">              
+          <mat-icon svgIcon="pdf"></mat-icon>
+        </button> 
+    </mat-cell>     
+  </ng-container>
+  <mat-header-row *matHeaderRowDef="displayedColumns;"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;">
+  </mat-row>
+  </mat-table>
+
+</form>
+  
+  <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
